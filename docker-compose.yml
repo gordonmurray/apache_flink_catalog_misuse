@@ -11,6 +11,8 @@ services:
     volumes:
       - ./jars/flink-sql-connector-mysql-cdc-2.4.1.jar:/opt/flink/lib/flink-sql-connector-mysql-cdc-2.4.1.jar
       - ./jars/flink-connector-jdbc-3.1.0-1.17.jar:/opt/flink/lib/flink-connector-jdbc-3.1.0-1.17.jar
+      - ./flink-jobs/flink_jobs_with_a_catalog.sql:/opt/flink/flink_jobs_with_a_catalog.sql
+      - ./flink-jobs/flink_jobs_with_no_catalog.sql:/opt/flink/flink_jobs_with_no_catalog.sql
     environment:
       - |
         FLINK_PROPERTIES=
@@ -39,7 +41,8 @@ services:
         - MYSQL_ROOT_PASSWORD=rootpassword
       volumes:
         - db_data:/var/lib/mysql
-        - ./db-init-scripts:/docker-entrypoint-initdb.d
+        - ./db-init-scripts/:/docker-entrypoint-initdb.d
+        - ./db-init-scripts/mariadb.cnf:/etc/mysql/mariadb.conf.d/mariadb.cnf
       ports:
         - "3306:3306"
 
